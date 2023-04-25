@@ -10,4 +10,6 @@ conda activate hfnlp
 pip install numpy
 pip install ipykernel
 conda install -c conda-forge ipywidgets
+
+pip install transformers
 ```
