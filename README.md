@@ -2,6 +2,7 @@
 
 - Course: https://huggingface.co/learn/nlp-course/chapter0/1?fw=pt
 - Notebooks: https://github.com/huggingface/notebooks
+- Gradio: https://github.com/gradio-app/gradio
 
 ## Environment Setup
 
