@@ -13,7 +13,7 @@
 
 ### Install PyTorch
 
-- https://pytorch.org/get-started/locally/#start-locally gives you the command to run
+- https://pytorch.org/get-started/locally/#start-locally gives you the command to run: `conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia`
 - Picked CUDA 11.8, which is supposed to work with CUDA 12.1 (as per https://discuss.pytorch.org/t/install-pytorch-with-cuda-12-1/174294/3)
 
 ### Install base python libraries
