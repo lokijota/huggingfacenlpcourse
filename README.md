@@ -25,7 +25,11 @@ pip install numpy
 pip install ipykernel
 conda install -c conda-forge ipywidgets
 
-pip install "transformers[sentencepiece]"
+# To avoid this error https://github.com/huggingface/transformers/issues/21858
+pip install chardet
+
+# as per the first sample notebook
+pip install datasets evaluate transformers[sentencepiece] 
 ```
 
 
