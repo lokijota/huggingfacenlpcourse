@@ -6,6 +6,18 @@
 
 ## Environment Setup
 
+### Install CUDA
+
+- Start with CUDA (RTX A2000 is supported - https://developer.nvidia.com/cuda-gpus) - https://developer.nvidia.com/cuda-downloads?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_network
+- Installed v12.1
+
+### Install PyTorch
+
+- https://pytorch.org/get-started/locally/#start-locally gives you the command to run
+- Picked CUDA 11.8, which is supposed to work with CUDA 12.1 (as per https://discuss.pytorch.org/t/install-pytorch-with-cuda-12-1/174294/3)
+
+### Install base python libraries
+
 ```
 conda create --name hfnlp python=3.9
 conda activate hfnlp
