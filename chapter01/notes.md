@@ -102,8 +102,14 @@ How it works:
 
 So the encoder is used once (to generate a representation of the entire input), but the decoder is used several times to generate the output word per word -- using both the "representation of the entire input", and the masked attention -- previously generated words. The weights are not shared across encoder and decoder.
 
+Additionally, the encoder and decoder do not need to have the same context sizes. For example for summarization, the encoder usually has a larger context than the encoder.
+
 ![](encoder-decoder-example.png)
 
 These models are best suited for tasks involving generation of new sentences depending on a given input, such as *summarization, translation, or generative question answering*.
 
 `T5`, `BART`, `Marian` are examples.
+
+Some combinations ("proven to work well together") could be:
+
+![](encoder-decoder-combinations.png)
