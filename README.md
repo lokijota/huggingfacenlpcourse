@@ -4,6 +4,7 @@
 - Notebooks: https://github.com/huggingface/notebooks
 - Transformers Library documentation: https://huggingface.co/docs/transformers/index
 - Gradio (owned by HF): https://github.com/gradio-app/gradio
+- Codecarbon for CO2 emissions tracking - https://github.com/mlco2/codecarbon
 
 ## Environment Setup
 
@@ -33,8 +34,11 @@ pip install chardet
 pip install datasets evaluate transformers[sentencepiece] 
 ```
 
+## Notes per chapter
 
-Bibtext reference to HF course:
+- [Chapter1](chapter01\notes.md)
+
+## Bibtext reference to HF course:
 
 ```
 @misc{huggingfacecourse,
@@ -42,6 +46,6 @@ Bibtext reference to HF course:
   title = {The Hugging Face Course, 2022},
   howpublished = "\url{https://huggingface.co/course}",
   year = {2022},
-  note = "[Online; accessed <today>]"
+  note = "[Online; accessed 2023/04/25]"
 }
 ```
