@@ -1,5 +1,7 @@
 # Hugging Face NLP Course
 
+***Note**: these are my personal notes, which I took while doing the HF NLP course. They are NOT a replacement or rewrite of the course, they are just notes supporting my learning.* 
+
 - Course: https://huggingface.co/learn/nlp-course/chapter0/1?fw=pt
 - Notebooks: https://github.com/huggingface/notebooks
 - Transformers Library documentation: https://huggingface.co/docs/transformers/index
