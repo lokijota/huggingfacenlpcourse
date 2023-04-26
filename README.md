@@ -36,7 +36,8 @@ pip install datasets evaluate transformers[sentencepiece]
 
 ## Notes per chapter
 
-- [Chapter1](chapter01\notes.md)
+- [Chapter 1 - Transformer Models](./chapter01/notes.md)
+- [Chapter 2 - Using Transformers](./chapter02/notes.md)
 
 ## Bibtext reference to HF course:
 
