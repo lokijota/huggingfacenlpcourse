@@ -73,7 +73,7 @@ Model: This is an umbrella term that is- n’t as precise as “architecture” 
 
 «For example, *BERT* is an architecture while `bert-base-cased`, a set of weights trained by the Google team for the first release of BERT, is a checkpoint. However, one can say “the BERT model” and “the `bert-base-cased` model.”»
 
-## Encoder models
+## Encoder models ("auto-regressive models")
 
 - Left side of the Transformer architecture, transforms N words into N vectors of numbers (feature vector/tensor)
 - Each vector (i.e., word representation) depends on the 'context', i.e. the words that surround it, it's not like a simple dictionary lookup. This happens through the attention mechanism, where «at each stage, the attention layers can access all the words in the initial sentence».
@@ -83,7 +83,7 @@ Model: This is an umbrella term that is- n’t as precise as “architecture” 
 
 Google’s `BERT` is (or was?) the most popular Encoder model \[architecture\], others being `ALBERT`, `DistilBERT`, `ELECTRA` or `RoBERTa`.
 
-## Decoder models
+## Decoder models ("auto-regressive models")
 
 - Very similar to the Encoder models, it also generates 1 vector of numbers for each word. However each vector for each word only considers the words that came before, the ones that come later are 'masked' and not considered -- it uses "*masked self-attention*".
 - «Best suited for text generation tasks - causal language modeling»
@@ -93,3 +93,17 @@ Google’s `BERT` is (or was?) the most popular Encoder model \[architecture\], 
 
 ## Sequence-to-sequence models
 
+The name comes from the fact that they "convert" sequences of text into other sequences of text (translation, summarization, etc.).
+
+How it works:
+
+1. first step: words --» encoder --» vectors + "start of sequence indicator" --» decoder --» WORD_1 
+1. subsequent steps use only the *decoder* (and the previous outputs of the encoder, but it doesn't need to be run again), and use the generated word (WORD_1) as the start of the sequence, and soi-on and soi-on to generate WORD_2, etc., until e.g. a stop character is generated (like a ".") or a limit is reached.
+
+So the encoder is used once (to generate a representation of the entire input), but the decoder is used several times to generate the output word per word -- using both the "representation of the entire input", and the masked attention -- previously generated words. The weights are not shared across encoder and decoder.
+
+![](encoder-decoder-example.png)
+
+These models are best suited for tasks involving generation of new sentences depending on a given input, such as *summarization, translation, or generative question answering*.
+
+`T5`, `BART`, `Marian` are examples.
