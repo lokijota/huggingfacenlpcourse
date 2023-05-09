@@ -41,6 +41,8 @@ pip install datasets evaluate transformers[sentencepiece]
 - [Chapter 1 - Transformer Models](./chapter01/notes.md)
 - [Chapter 2 - Using Transformers](./chapter02/notes.md)
 
+- [Spin-off topics/readings](./SpinOffs/README.md)
+
 ## Bibtext reference to HF course:
 
 ```

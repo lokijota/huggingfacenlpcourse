@@ -2,13 +2,11 @@
 
 ## History
 
-Quoting from the course contents:
-
 «The Transformer architecture was introduced in June 2017. The **focus of the original research was on translation tasks**. This was followed by the introduction of several influential models, including:
 
 - June 2018: **GPT**, the first pretrained Transformer model, used for fine-tuning on various NLP tasks and obtained state-of-the-art results
 
-- October 2018: **BERT**, another large pretrained model, this one designed to produce better summaries of sentences (more on this in the next chapter!)
+- October 2018: **BERT**, another large pretrained model, this one designed to produce better summaries of sentences
 
 - February 2019: **GPT-2**, an improved (and bigger) version of GPT that was not immediately publicly released due to ethical concerns
 
@@ -20,9 +18,20 @@ Quoting from the course contents:
 
 This list is far from comprehensive, and is just meant to highlight a few of the different kinds of Transformer models. Broadly, they can be grouped into three categories:
 
-- GPT-like (also called auto-regressive Transformer models)
-- BERT-like (also called auto-encoding Transformer models)
-- BART/T5-like (also called sequence-to-sequence Transformer models)»
+- **GPT-like** (also called **auto-regressive** Transformer models)
+    - Generative Pre-trained Transformer 2 (GPT-2) is an open-source artificial intelligence large language model created by OpenAI in February 2019. GPT-2 translates text, answers questions, summarizes passages, and generates text output on a level that, while sometimes indistinguishable from that of humans, can become repetitive or nonsensical when generating long passages. It is a general-purpose learner; it was not specifically trained to do any of these tasks, and its ability to perform them is an extension of its **general ability to accurately synthesize the next item in an arbitrary sequence**. GPT-2 was created as a "direct scale-up" of OpenAI's 2018 GPT model ("GPT-1"), with a ten-fold increase in both its parameter count and the size of its training dataset.
+    - GPT-2 has a generative pre-trained transformer architecture which implements a DNN, specifically a transformer model, which uses attention in place of previous recurrence- and convolution-based architectures. Attention mechanisms allow the model to selectively focus on segments of input text it predicts to be the most relevant. This model allows for greatly increased parallelization, and outperforms previous benchmarks for RNN/CNN/LSTM-based models.
+
+- **BERT-like** (also called **auto-encoding** Transformer models)
+    - BERT = Bidirectional Encoder Representations from Transformers - https://en.wikipedia.org/wiki/BERT_(language_model)
+    - Two model sizes: (1) BERTBASE: 12 encoders with 12 bidirectional self-attention heads totaling 110 million parameters, and (2) BERTLARGE: 24 encoders with 16 bidirectional self-attention heads totaling 340 million parameters.
+    - BERT is based on the transformer architecture. Specifically, BERT is composed of Transformer **encoder** layers.
+    - The high performance of the BERT model could also be attributed to the fact that it is bidirectionally trained. This means that BERT, based on the Transformer model architecture, applies its self-attention mechanism to learn information from a text from the left and right side during training, and consequently gains a deep understanding of the context. For example, the word fine can have two different meanings depending on the context (I feel fine today, She has fine blond hair). BERT considers the words surrounding the target word fine from the left and right side.
+    - However it comes at a cost: **due to encoder-only architecture lacking a decoder, BERT can't be prompted and can't generate text**, while bidirectional models in general do not work effectively without the right side, thus being difficult to prompt, with even short text generation requiring sophisticated computationally expensive techniques.
+    - Context-free models such as word2vec generate a **single word embedding representation for each word in the vocabulary**, where BERT takes into account the context for each occurrence of a given word. For instance, whereas the vector for "running" will have the same word2vec vector representation for both of its occurrences in the sentences "He is running a company" and "He is running a marathon", BERT will provide a **contextualized embedding** that will be different according to the sentence.
+    - https://en.wikipedia.org/wiki/GPT-2#/media/File:Full_GPT_architecture.png
+
+- **BART/T5-like** (also called **sequence-to-sequence** Transformer models)»
 
 
  **Self-supervised**  = objective is computed from the inputs to the model / no labelling needed.
@@ -32,6 +41,27 @@ This list is far from comprehensive, and is just meant to highlight a few of the
 - «An example of a task is predicting the next word in a sentence having read the n previous words. This is called *causal language modeling* because the output depends on the past and present inputs, but not the future ones. Another example is *masked language modeling*, in which the model predicts a masked word in the sentence.»
 
 - **"Pretraining"** = training a model from scratch, from randomly initialized weights. Requires a lot of data and compute. «**Fine-tuning**, on the other hand, is training done after a model has been pretrained. To perform fine-tuning, you first acquire a pretrained language model, then perform additional training with a dataset specific to your task.»
+
+## Transformer notes from From wikipedia - https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
+
+- Replaced RNN's such as LTSM's, and are much more paralelisable.
+
+### Input
+
+The input text is parsed into tokens by a byte pair encoding tokenizer, and each token is converted via a word embedding into a vector. Then, positional information of the token is added to the word embedding.
+
+*(Nota: como é este embedding calculado? isto deve ser tipo word2vec, ou seja, um embedding pré-treinado, certo?)*
+
+### Encoder/decoder architecture
+
+Like earlier seq2seq models, the original Transformer model used an encoder/decoder architecture. The encoder consists of encoding layers that process the input iteratively one layer after another, while the decoder consists of decoding layers that do the same thing to the encoder's output.
+
+The function of each encoder layer is to generate encodings that contain information about which parts of the inputs are relevant to each other. It passes its encodings to the next encoder layer as inputs. Each decoder layer does the opposite, taking all the encodings and using their incorporated contextual information to generate an output sequence. To achieve this, each encoder and decoder layer makes use of an attention mechanism.
+
+For each part of the input, attention weighs the relevance of every other part and draws from them to produce the output. Each decoder layer has an additional attention mechanism that draws information from the outputs of previous decoders, before the decoder layer draws information from the encodings.
+
+Both the encoder and decoder layers have a feed-forward neural network for additional processing of the outputs and contain residual connections and layer normalization steps.
+
 
 ## Transformers General Architecture
 
@@ -73,8 +103,9 @@ Model: This is an umbrella term that is- n’t as precise as “architecture” 
 
 «For example, *BERT* is an architecture while `bert-base-cased`, a set of weights trained by the Google team for the first release of BERT, is a checkpoint. However, one can say “the BERT model” and “the `bert-base-cased` model.”»
 
-## Encoder models ("auto-regressive models")
+## Encoder models ("auto-encoding models")
 
+- Encoder models use only the encoder of a Transformer model
 - Left side of the Transformer architecture, transforms N words into N vectors of numbers (feature vector/tensor)
 - Each vector (i.e., word representation) depends on the 'context', i.e. the words that surround it, it's not like a simple dictionary lookup. This happens through the attention mechanism, where «at each stage, the attention layers can access all the words in the initial sentence».
 - «The pretraining of these models usually revolves around corrupting a given sentence (for instance, by masking random words in it) and tasking the model with finding or reconstructing the initial sentence.»
@@ -84,6 +115,8 @@ Model: This is an umbrella term that is- n’t as precise as “architecture” 
 Google’s `BERT` is (or was?) the most popular Encoder model \[architecture\], others being `ALBERT`, `DistilBERT`, `ELECTRA` or `RoBERTa`.
 
 ## Decoder models ("auto-regressive models")
+
+- **Note**: In statistics, econometrics and signal processing, an autoregressive model is a representation of a type of random process; as such, it is used to describe certain time-varying processes in nature, economics, behavior, etc. The autoregressive model specifies that *the output variable depends linearly on its own previous values and on a stochastic term (an imperfectly predictable term)*. 
 
 - Very similar to the Encoder models, it also generates 1 vector of numbers for each word. However each vector for each word only considers the words that came before, the ones that come later are 'masked' and not considered -- it uses "*masked self-attention*".
 - «Best suited for text generation tasks - causal language modeling»
@@ -102,7 +135,7 @@ How it works:
 
 So the encoder is used once (to generate a representation of the entire input), but the decoder is used several times to generate the output word per word -- using both the "representation of the entire input", and the masked attention -- previously generated words. The weights are not shared across encoder and decoder.
 
-Additionally, the encoder and decoder do not need to have the same context sizes. For example for summarization, the encoder usually has a larger context than the encoder.
+Additionally, the encoder and decoder do not need to have the same context sizes. For example for summarization, the decoder usually has a larger context than the encoder.
 
 ![](encoder-decoder-example.png)
 
