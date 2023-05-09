@@ -258,3 +258,67 @@ model_inputs = torch.tensor(encoded_sequences)
 ```
 
 While the model accepts a lot of different arguments, only the input IDs are necessary.
+
+## Tokenizers
+
+Tokenizers transform input text into "numbers" that can be processed by a model. There are three types:
+
+- Word based
+- Character based
+- Subword based
+
+There are a lot of ways of doing this. The goal is to find the most *meaningful representation* — that is, the one that makes the most sense to the model — and, if possible, the smallest representation.
+
+### Word-based tokenizers
+
+- split based on spaces or punctuation
+- each word has a specific id assigned to it
+- limits: similar words, like dog and dogs, are similar but will have totally different Ids. So the model won't know the relationship between them.
+- the ids are usually assigned based on the frequency of the word in the training corpus. Also, the vocabulary size can be huge, which can be a problem for the model.
+- we can have the larger words be ignored, eg consider only the most used 10k words. Any new word will be assigned the same id as the last word in the vocabulary. This is the "out of vocabulary" token, also represented as `[UNK]`, and this results in loss of meaningful information.
+
+One way to reduce the amount of unknown tokens is to go one level deeper, using a character-based tokenizer.
+
+### Character-based tokenizers
+
+- assign numbers to characters, also considering accented words and special characters (~256 for western languages).
+- this results in much fewer "out of vocabulary" signs, and is also able to represent mis-spelled words
+- but character tokens hold much less information than words tokens
+- also, a lot more tokens will be needed to represent the same text, which can be a problem for the model. this will also reduce the size of the context/size of input to the model
+- we’ll end up with a very large amount of tokens to be processed by our model: whereas a word would only be a single token with a word-based tokenizer, it can easily turn into 10 or more tokens when converted into characters.
+- this type of tokenization has however been succesful in the past (for some types of problems) 
+
+To get the best of both worlds, we can use a third technique that combines the two approaches: subword tokenization.
+
+### Subword-based tokenizers
+
+Middle ground between the two previous approaches. The idea is to split the words into smaller parts, and then assign ids to these parts. This way, we can represent the words that are not in the vocabulary as a combination of subwords that are in the vocabulary.
+
+Principles:
+- Frequently used words should not be split into subwords
+- Rare words should be decomposed into meaningful subwords
+
+Eg, "dog" should be a single token, but "dogs" should be "dog" + "s", so that we keep the meeaning of "dog". Other cases are having tokens for root words -- eg, tokenization = "token" (root) + "ization" (suffix, completion of the word).
+
+tokenization = token + ##ization. ## means "part of a word" for BERT's tokenizer. For Alberta the _ is used instead (and most word-based tokenizers)
+
+There are several tokenizers in use today, eg:
+- WordPiece (Bert, DistilBert)
+- Unigram (XLNet, Albert)
+- Byte-Pair Encoding (GPT-2, RoBERTa)
+
+Most models with SOTA result use subword tokenization.
+
+Go check code in `tokenizers.ipynb`.
+
+Steps inside tokenizer are *roughly*:
+
+1- Raw text
+2- Convert to tokens (break apart words)
+3- Add special tokens (eg, CLS, SEP, ##...)
+4- Convert to ids
+
+When you create a tokenizer, you download the vocabulary file, which corresponds to the mapping between tokens and ids for the model you want to use.
+This happens when we instantiate it with `AutoTokenizer/BertTokenizer/....from_pretrained()`.
+
+At the end, the `tokenizer.decode()` method is used to convert the ids back to text. THis is also used to convert the output of a model into readable text.
