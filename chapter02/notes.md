@@ -192,5 +192,69 @@ The following sections go deeper into these topics.
 
 ## Models
 
-- The `AutoModel` class and all of its relatives are actually simple wrappers over the wide variety of models available in the library. It’s a clever wrapper as it can automatically guess the appropriate model architecture for your checkpoint, and then instantiates a model with this architecture.
+- The `AutoModel` class and all of its relatives are actually simple wrappers over the wide variety of models available in the library. It’s a **clever wrapper as it can automatically guess the appropriate model architecture for your checkpoint, and then instantiates a model with this architecture**. However, if you know the type of model you want to use, you can use the class that defines its architecture directly.
 
+- **Note** - Check `model.ipynb` for code
+
+For example:
+
+```	
+from transformers import BertConfig, BertModel
+
+config = BertConfig()
+model = BertModel(config)
+
+# Model is randomly initialized!
+```
+
+The model can be used in this state, but it will output gibberish; it needs to be trained first. 
+
+Loading a Transformer model that is already trained is simple:
+
+```
+from transformers import BertModel
+
+model = BertModel.from_pretrained("bert-base-cased")
+```
+
+As you saw earlier, we could replace `BertModel` with the equivalent AutoModel class. We’ll do this from now on as this produces checkpoint-agnostic code; if your code works for one checkpoint, it should work seamlessly with another. This applies even if the architecture is different, as long as the checkpoint was trained for a similar task (for example, a sentiment analysis task).
+
+In the code sample above we didn’t use `BertConfig`, and instead loaded a pretrained model via the `bert-base-cased` identifier. This is a model checkpoint that was trained by the authors of BERT themselves.
+
+This model is now initialized with all the weights of the checkpoint. It can be used directly for inference on the tasks it was trained on, and it can also be fine-tuned on a new task. By training with pretrained weights rather than from scratch, we can quickly achieve good results.
+
+The weights have been downloaded and cached (so future calls to the `from_pretrained`() method won’t re-download them) in the cache folder. On windows, on my case, that's `C:\Users\joamart\.cache\huggingface\hub`.
+
+When you save a model (`model.save_pretrained("directory_on_my_computer")`), you get a json file and a bin file. The pytorch_model.bin file is known as the **state dictionary**; it contains all your model’s weights. The two files go hand in hand; the configuration is necessary to know your model’s architecture, while the model weights are your model’s parameters.
+
+### Using a Transformer model for inference
+
+Now that you know how to load and save a model, let’s try using it to make some predictions. **Transformer models can only process numbers — numbers that the tokenizer generates**. But before we discuss tokenizers, let’s explore what inputs the model accepts: jus **tensors**.
+
+Tokenizers can take care of casting the inputs to the appropriate framework’s tensors, but to help you understand what’s going on, we’ll take a quick look at what must be done before sending the inputs to the model.
+
+Let’s say we have a couple of sequences:
+
+```
+sequences = ["Hello!", "Cool.", "Nice!"]
+```
+
+The tokenizer converts these to vocabulary indices which are typically called input IDs. Each sequence is now a list of numbers! The resulting output is:
+
+```
+encoded_sequences = [
+    [101, 7592, 999, 102],
+    [101, 4658, 1012, 102],
+    [101, 3835, 999, 102],
+]
+```
+
+This is a list of encoded sequences: a list of lists. Tensors only accept matrices, so it has to be converted to a tensor:
+
+```
+import torch
+
+model_inputs = torch.tensor(encoded_sequences)
+```
+
+While the model accepts a lot of different arguments, only the input IDs are necessary.
