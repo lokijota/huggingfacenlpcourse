@@ -31,6 +31,7 @@ conda install -c conda-forge ipywidgets
 
 # To avoid this error https://github.com/huggingface/transformers/issues/21858
 pip install chardet
+pip install cchardet
 
 # as per the first sample notebook
 pip install datasets evaluate transformers[sentencepiece] 
