@@ -477,12 +477,3 @@ output = model(**tokens)
 print(output.logits)
 ```
 
-
-
-
-# Random notes
-
-27 maio -> ida para Hamburgo (Sábado)
-11 de Junho, largar carro em Hamburgo (Domingo)
-
-Pedir ao Param para fazer uma recomendação para a GCP!
