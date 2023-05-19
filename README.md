@@ -45,6 +45,16 @@ pip install datasets evaluate transformers[sentencepiece]
 
 - [Spin-off topics/readings](./SpinOffs/README.md)
 
+## Other tutorials to do
+
+- Fine-tuning with custom datasets: https://huggingface.co/transformers/v3.2.0/custom_datasets.html - this uses an older version of transformers (v3.2.0) but it does fine-tuning with datasets not stored in HF, which I want to check out.
+
+- FAISS/HNSW - To check too: https://www.pinecone.io/learn/hnsw/
+
+- Langchain tutorial (shared by NS) - https://www.youtube.com/watch?v=aywZrzNaKjs
+
+- Diffusers HF library - https://huggingface.co/docs/diffusers/index
+
 ## Bibtext reference to HF course:
 
 ```

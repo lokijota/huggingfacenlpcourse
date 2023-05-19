@@ -1,5 +1,7 @@
 # Random readings pursued from the main course
 
+- This is a good and simple explanation of drop out layers: https://databasecamp.de/en/ml/dropout-layer-en
+
 ## Chain of Thought Reasoning
 
 - Source: Google - Chain of Thought Reasoning. Overview here https://ai.googleblog.com/2022/05/language-models-perform-reasoning-via.html and ArXiv here: https://arxiv.org/abs/2201.11903
