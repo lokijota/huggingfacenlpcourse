@@ -34,7 +34,7 @@ pip install chardet
 pip install cchardet
 
 # as per the first sample notebook
-pip install datasets evaluate transformers[sentencepiece] 
+pip install --upgrade datasets evaluate transformers[sentencepiece] diffusers accelerate
 ```
 
 ## Notes per chapter
